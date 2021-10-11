@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link th:replace="admin/home.html :: customCSS" />
+<link th:replace="admin/home.html :: gF1" />
+<link th:replace="admin/home.html :: gF2" />
+<link th:replace="admin/home.html :: gF3" />
+<link th:replace="admin/home.html :: boostrapCSS" />
+<link th:replace="admin/home.html :: fontAwsomeCDN" />
+<title>Edit Show</title>
+</head>
+<body>
+	<nav th:replace="admin/home.html :: navbar"></nav>
+
+	<!-- TITLE -->
+	<section class="container mt-4 mb-5">
+		<div>
+			<h1 th:text="${show.showTitle}"></h1>
+		</div>
+	</section>
+
+	<!-- Editar -->
+	<section class="container mt-5">
+		<div>
+			<form th:action="@{/updateShow}" method="POST"
+				th:object="${showDTO}">
+				<div>
+					<input type="hidden" name="id" th:value="${show.id}"/>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">Show Title</span> <input
+							type="text" class="form-control"
+							name="showTitle" th:value="${show.showTitle}">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">Network</span> <input
+							type="text" class="form-control" name="showNetwork" th:value="${show.showNetwork}">
+					</div>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+					<a class="btn btn-light" th:href="@{/home}">Cancelar</a>
+					<button type="submit" class="btn btn-dark" th:text="Update"></button>
+				</div>
+			</form>
+		</div>
+	</section>
+
+	<script th:replace="admin/home.html :: bootstrapBundle"></script>
+</body>
+</html>

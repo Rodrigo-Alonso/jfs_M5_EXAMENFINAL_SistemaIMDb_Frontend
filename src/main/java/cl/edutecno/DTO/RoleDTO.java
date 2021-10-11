@@ -1,11 +1,11 @@
-package cl.edutecno.model;
+package cl.edutecno.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Role {
+public enum RoleDTO {
 	
 	ROLE_ADMIN("Admin"), ROLE_CLIENT("Client");
 	
