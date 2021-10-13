@@ -16,7 +16,7 @@
 	<!-- TITLE -->
 	<section class="container mt-4 mb-5">
 		<div>
-			<h1 th:text="${show.showTitle}"></h1>
+			<h1 class="fw-bold" th:text="${show.showTitle}"></h1>
 		</div>
 	</section>
 
@@ -38,8 +38,8 @@
 					</div>
 				</div>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-					<a class="btn btn-light" th:href="@{/home}">Cancelar</a>
-					<button type="submit" class="btn btn-dark" th:text="Update"></button>
+					<a class="btn btn-light" th:href="@{/home}">Cancel</a>
+					<button type="submit" class="btn btn-success" th:text="Update"></button>
 				</div>
 			</form>
 		</div>

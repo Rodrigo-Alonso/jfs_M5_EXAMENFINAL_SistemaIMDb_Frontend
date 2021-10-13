@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link th:replace="admin/home.html :: customCSS" />
+<link th:replace="admin/home.html :: gF1" />
+<link th:replace="admin/home.html :: gF2" />
+<link th:replace="admin/home.html :: gF3" />
+<link th:replace="admin/home.html :: boostrapCSS" />
+<link th:replace="admin/home.html :: fontAwsomeCDN" />
+
+<title>Ratings Show</title>
+
+</head>
+<body>
+
+	<nav th:replace="admin/home.html :: navbar"></nav>
+
+	<!-- TITLE -->
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col pt-3">
+				<h1 th:text="'Title: ' + ${show.showTitle}"></h1>
+				<h2 th:text="'Network: ' + ${show.showNetwork}"></h2>
+			</div>
+			<div class="col d-flex justify-content-end">
+				<div class="card shadow text-center text-white bg-success mb-3"
+					style="width: 9rem;">
+					<div class="card-header">Rating Average</div>
+					<div class="card-body">
+						<h3 class="card-title"
+							th:text="${avgRating != null ? #numbers.formatDecimal(avgRating,1,2): '-'}"></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- TABLE TITTLE AND BUTTONS -->
+	<section class="container">
+		<div class="row">
+			<div class="col">
+				<h2 class="m-0 fw-bold">Users who rated this show</h2>
+			</div>
+			<div class="col">
+				<form th:action="@{/findByNombre}" method="POST">
+					<fieldset disabled>
+						<div
+							class="input-group mt-2 d-flex justify-content-end d-flex ps-5">
+							<input type="text" class="form-control ms-5"
+								placeholder="Find by username" name="showName">
+							<button class="btn btn-outline-secondary" type="submit"
+								id="button-addon2">
+								<i class="fas fa-search"></i> Find
+							</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<!-- TABLE -->
+	<div class="container mt-3">
+		<div class="col-sm-12">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Username</th>
+						<th scope="col">Rating</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="var: ${ratings}">
+						<td th:text="${var.user.username}" />
+						<td
+							th:text="${var.rating != null ? #numbers.formatDecimal(var.rating,1,2): ' no vote yet'}" />
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- ADD RATING -->
+
+	<!-- PAGINATION & ADD RATING-->
+	<section class="container pt-3">
+		<div class="row">
+			<div class="col pe-5">
+				<form th:action="@{/addRating}" method="POST"
+					th:object="${ratingDTO}">
+					<div class="input-group mb-3">
+						<input type="hidden" name="show.id" th:value="${show.id}" />
+						<input type="hidden" name="show.showTitle" th:value="${show.showTitle}" />
+						<input type="hidden" name="show.showNetwork" th:value="${show.showNetwork}" />
+						<span
+							class="input-group-text" id="basic-addon1">Leave a rating:
+						</span> <input type="number" class="form-control" placeholder="1 to 5"
+							aria-label="Username" aria-describedby="basic-addon1" min="1"
+							max="5" name="rating">
+						<button class="btn btn-outline-secondary" type="submit"
+							id="button-addon2">Rate!</button>
+					</div>
+				</form>
+			</div>
+			<div class="col">
+				<!-- Futura Implementacion -->
+				<!--
+				<nav aria-label="...">
+					<ul class="pagination d-flex justify-content-center mb-0">
+						<li class="page-item disabled"><span class="page-link">Previous</span>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item active" aria-current="page"><span
+							class="page-link">2</span></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+				-->
+			</div>
+			<div class="col"></div>
+		</div>
+	</section>
+
+	<!-- BUTTON GO BACK -->
+	<section class="container">
+		<a type="button" class="btn btn-dark mt-5" th:href="@{/home}">Go
+			back</a>
+	</section>
+
+	<script th:replace="admin/home.html :: bootstrapBundle"></script>
+</body>
+</html>

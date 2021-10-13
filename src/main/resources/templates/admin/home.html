@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-<head >
+<head>
 <meta charset="UTF-8">
 <!---CSS-->
-<link rel="stylesheet" th:href="@{css/style.css}" th:fragment="customCSS"/>
+<link rel="stylesheet" th:href="@{css/style.css}"
+	th:fragment="customCSS" />
 
 <!--Google Fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com" th:fragment="gF1">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin th:fragment="gF2">
+<link rel="preconnect" href="https://fonts.googleapis.com"
+	th:fragment="gF1">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin
+	th:fragment="gF2">
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
 	rel="stylesheet" th:fragment="gF3">
@@ -50,8 +53,8 @@
 				<ul class="navbar-nav">
 					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Show
 							List</a></li>
-					<li class="nav-item"><a class="nav-link" data-bs-toggle="modal"
-					data-bs-target="#addShowModdal">Add New
+					<li class="nav-item"><a class="nav-link"
+						data-bs-toggle="modal" data-bs-target="#addShowModdal">Add New
 							Show</a>
 				</ul>
 			</div>
@@ -64,8 +67,8 @@
 					<li><h5 class="dropdown-item">User</h5></li>
 					<li><hr class="dropdown-divider"></li>
 					<li><p class="dropdown-item mb-0"
-							th:text="'Username: ' + ${username['username']}"></p></li>
-					<li><p class="dropdown-item mb-0">Role: *****</p></li>
+							th:text="'Username: ' + ${user['username']}"></p></li>
+					<li><p class="dropdown-item mb-0" th:text="'Role: ' + ${user['role'].displayValue}"></p></li>
 					<li><hr class="dropdown-divider"></li>
 					<li><a class="dropdown-item" th:href="@{/logout}"><i
 							class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -75,9 +78,9 @@
 	</nav>
 
 	<!-- TITLE -->
-	<section class="container mt-4 mb-5">
+	<section class="container mt-4 mb-3">
 		<div>
-			<h1 th:text="'Welcome, ' + ${username['username']}"></h1>
+			<h1 class="fw-bold" th:text="'Welcome, ' + ${user['username']}"></h1>
 		</div>
 	</section>
 
@@ -91,17 +94,17 @@
 			<div class="col d-grid gap-2 d-md-flex justify-content-md-end">
 				<a class="btn m-2 btn-success" data-bs-toggle="modal"
 					data-bs-target="#addShowModdal"><i class="fas fa-plus"></i>
-					Agregar Show</a>
+					Add New Show</a>
 			</div>
 			<div class="col">
 				<form th:action="@{/findByNombre}" method="POST">
 					<fieldset disabled>
 						<div class="input-group mt-2">
 							<input type="text" class="form-control"
-								placeholder="Ingrese Nombre Show" name="showName">
+								placeholder="Find by show name" name="showName">
 							<button class="btn btn-outline-secondary" type="submit"
 								id="button-addon2">
-								<i class="fas fa-search"></i> Buscar
+								<i class="fas fa-search"></i> Find
 							</button>
 						</div>
 					</fieldset>
@@ -118,18 +121,21 @@
 					<tr>
 						<th scope="col">Show</th>
 						<th scope="col">Network</th>
-						<th scope="col">Average Rating</th>
+						<th scope="col">Average Rating (Order Desc)</th>
 						<th scope="col"></th>
 
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="var: ${showsAndRating}">
-						<td><a th:href="@{/ratingsShow(idShow=${var.id}
+						<td><a
+							th:href="@{/ratingsShow(idShow=${var.id}
 						,showTitle=${var.showTitle}
-						,showNetwork=${var.showNetwork})}" th:text="${var.showTitle}"></a></td>
+						,showNetwork=${var.showNetwork})}"
+							th:text="${var.showTitle}"></a></td>
 						<td th:text="${var.showNetwork}" />
-						<td th:text="${var.avgRating != null ? #numbers.formatDecimal(var.avgRating,1,2): '-'}" />
+						<td
+							th:text="${var.avgRating != null ? #numbers.formatDecimal(var.avgRating,1,2): '-'}" />
 						<td><a th:href="@{/editShow?idShow={id}(id=${var.id})}"
 							class="btn btn-primary btn-sm"><i
 								class="fas fa-edit fa-1x mx-1"></i></a> <a
@@ -141,7 +147,23 @@
 			</table>
 		</div>
 	</div>
-	
+
+	<!-- PAGINATION -->
+	<!-- Futura Implementacion -->
+	<!--
+	<nav aria-label="..." class="container pt-3">
+		<ul class="pagination d-flex justify-content-center">
+			<li class="page-item disabled"><span class="page-link">Previous</span>
+			</li>
+			<li class="page-item"><a class="page-link" href="#">1</a></li>
+			<li class="page-item active" aria-current="page"><span
+				class="page-link">2</span></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	</nav>
+	-->
+
 	<!-- MODAL ADD SHOW-->
 	<div class="modal fade" id="addShowModdal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -152,7 +174,8 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-10 ps-5">
-								<h5 class="modal-title text-center ps-3 mt-3" id="title">Create a new show.</h5>
+								<h5 class="modal-title text-center ps-3 mt-3" id="title">Create
+									a new show.</h5>
 							</div>
 							<div
 								class="col-sm-2 d-grid gap-2 d-md-flex justify-content-md-end">
@@ -167,27 +190,27 @@
 					<form th:action="@{/addShow}" method="POST" th:object="${show}">
 						<div>
 							<div class="input-group mb-3">
-								<span class="input-group-text" id="basic-addon1">Show title:</span> <input
-									type="text" class="form-control" placeholder="The Office"
-									name="showTitle">
+								<span class="input-group-text" id="basic-addon1">Show
+									title:</span> <input type="text" class="form-control"
+									placeholder="The Office" name="showTitle">
 							</div>
 							<div class="input-group mb-3">
-								<span class="input-group-text" id="basic-addon1">Network:</span> <input
-									type="text" class="form-control" placeholder="NBC"
+								<span class="input-group-text" id="basic-addon1">Network:</span>
+								<input type="text" class="form-control" placeholder="NBC"
 									name="showNetwork">
 							</div>
 						</div>
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
 							<button type="button" class="btn btn-light"
-								data-bs-dismiss="modal">Cancelar</button>
-							<button type="submit" class="btn btn-success">Guardar</button>
+								data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-success">Create</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
 	<script

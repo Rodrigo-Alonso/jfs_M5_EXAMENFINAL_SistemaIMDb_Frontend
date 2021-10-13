@@ -26,6 +26,7 @@ public class RatingServiceImpl implements RatingService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<RatingDTO> findAllRatingsByShowId(Integer id) {
+		
 		HttpHeaders headers = new HttpHeaders();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -45,10 +46,48 @@ public class RatingServiceImpl implements RatingService {
 		return response.getBody();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Double avgRatingByShowId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		HttpHeaders headers = new HttpHeaders();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Map<String, Object> principal = (Map<String, Object>) auth.getPrincipal();
+		headers.setBearerAuth(principal.get("token").toString());
+
+		HttpEntity<UserDTO> request = new HttpEntity<>(headers);
+		
+		String url = "http://localhost:8080/api/v1/shows/avgRatings/" + id;
+		
+		ResponseEntity<Double> response = restTemplate.exchange(
+				url, 
+				HttpMethod.GET, 
+				request, 
+				new ParameterizedTypeReference<Double>(){});
+		
+		return response.getBody();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public ResponseEntity addRating(RatingDTO ratingDTO) {
+		HttpHeaders headers = new HttpHeaders();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Map<String, Object> principal = (Map<String, Object>) auth.getPrincipal();
+		headers.setBearerAuth(principal.get("token").toString());
+
+		HttpEntity<RatingDTO> request = new HttpEntity<>(ratingDTO, headers);
+
+		ResponseEntity response = restTemplate.exchange(
+				"http://localhost:8080/api/v1/shows/rating", 
+				HttpMethod.POST, 
+				request, 
+				Void.class);
+		
+		return response;
+		
 	}
 
 }
